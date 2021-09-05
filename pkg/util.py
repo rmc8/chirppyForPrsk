@@ -3,6 +3,7 @@ import os
 import yaml
 import PySimpleGUI as sg
 
+
 def mkdir(dir_path):
     if not os.path.exists(dir_path):
         os.mkdir(dir_path)
@@ -32,10 +33,9 @@ class YamlConfig:
 def get_token(path):
     yc = YamlConfig(path)
     if not os.path.exists(path):
-        regist_token = sg. PopupGetText("Input the discord bot token")
+        regist_token = sg.PopupGetText("Input the discord bot token")
         if regist_token is None:
             exit()
         yc.write({"token": regist_token})
     res = yc.load()
     return res["token"]
-    

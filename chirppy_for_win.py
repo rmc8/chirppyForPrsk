@@ -1,7 +1,6 @@
 import os
 import traceback
 
-import PySimpleGUI as sg
 import discord
 from discord.ext import commands
 
@@ -48,7 +47,6 @@ async def register(ctx, arg1, arg2):
 async def on_voice_state_update(member, before, after):
     server_id_test: str = 'サーバーID'
     text_id_test: int = 0  # 通知させたいテキストチャンネルID
-    
     if member.guild.id == server_id_test:  # server_id
         text_ch = client.get_channel(text_id_test)  # 通知させたいTEXTチャンネルid
         if before.channel is None:

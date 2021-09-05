@@ -24,7 +24,7 @@ def omit_url(text):
     :param text: オリジナルのテキスト
     :return: URLの省略したテキスト
     """
-    pattern = 'https?://[\w/:%#\$&\?\(\)~\.=\+\-]+'
+    pattern = r'https?://[\w/:%#\$&\?\(\)~\.=\+\-]+'
     return re.sub(pattern, 'URL省略', text)  # 置換処理
 
 
