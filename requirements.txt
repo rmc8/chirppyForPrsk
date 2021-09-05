@@ -1,0 +1,4 @@
+discord
+ffmpeg
+pyttsx3
+PySimpleGUI

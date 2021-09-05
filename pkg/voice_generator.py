@@ -1,0 +1,107 @@
+import os
+import re
+import subprocess
+
+import pyttsx3
+
+
+def rm_custom_emoji(text):
+    """
+    絵文字IDは読み上げないようにする
+    :param text: オリジナルのテキスト
+    :return: 絵文字IDを除去したテキスト
+    """
+    # pattern = r'<:[a-zA-Z0-9_]+:[0-9]+>'    # カスタム絵文字のパターン
+    pattern = r'<:'  # カスタム絵文字のパターン
+    text = re.sub(pattern, '', text)  # 置換処理
+    pattern = r':[0-9]+>'  # カスタム絵文字のパターン
+    return re.sub(pattern, '', text)  # 置換処理
+
+
+def omit_url(text):
+    """
+    URLを省略する
+    :param text: オリジナルのテキスト
+    :return: URLの省略したテキスト
+    """
+    pattern = 'https?://[\w/:%#\$&\?\(\)~\.=\+\-]+'
+    return re.sub(pattern, 'URL省略', text)  # 置換処理
+
+
+def rm_picture(text):
+    """
+    画像の読み上げを止める
+    :param text: オリジナルのテキスト
+    :return: 画像の読み上げを省略したテキスト
+    """
+    pattern = r'.*(\.jpg|\.jpeg|\.gif|\.png|\.bmp)'
+    return re.sub(pattern, '', text)  # 置換処理
+
+
+def rm_command(text):
+    """
+    コマンドの読み上げを止める
+    :param text: オリジナルのテキスト
+    :return: コマンドを省略したテキスト
+    """
+    return re.sub(r'^(!|\?|$).*', '', text)  # 置換処理
+
+
+def rm_log(text):
+    """
+    参加ログを除去する
+    :param text: オリジナルのテキスト
+    :return: 参加ログを除去したテキスト
+    """
+    pattern = r'(\【VC参加ログ\】.*)'
+    return re.sub(pattern, '', text)  # 置換処理
+
+
+def user_custom(text):
+    """
+    辞書のデータを読み上げる
+    :param text:
+    :return:
+    """
+    user_dict: str = f'{os.getcwd()}/dict/dict.csv'
+    if not os.path.exists(user_dict):
+        return text
+
+    with open(user_dict, 'r', encoding='utf-8') as f:
+        lines = f.readline()
+        while lines:
+            pattern = lines.strip().split(',')
+            if pattern[0] in text:
+                text = text.replace(pattern[0], pattern[1])
+                print('置換後のtext:' + text)
+                break
+            lines = f.readline()
+    return text
+
+
+def gen_mp3(text, path):
+    engine = pyttsx3.init()
+    engine.save_to_file(text, './output/output.mp3')
+    engine.runAndWait()
+
+
+def create_wav(input_text, output_path):
+    """
+    message.contentをテキストファイルと音声ファイルに書き込む
+    :param input_text:
+    :return:
+    """
+    # message.contentをテキストファイルに書き込み
+    fxs = (rm_command, omit_url,
+           rm_picture, rm_log, user_custom, rm_custom_emoji)
+    for fx in fxs:
+        input_text = fx(input_text)  # 絵文字IDは読み上げない
+    gen_mp3(input_text, output_path)
+
+
+if __name__ == '__main__':
+    from util import mkdir
+
+    mkdir('./dict/')
+    mkdir('./output/')
+    create_wav('テスト', '../output/output.mp3')
