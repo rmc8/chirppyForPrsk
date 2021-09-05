@@ -81,7 +81,9 @@ def user_custom(text):
 
 def gen_mp3(text, path):
     engine = pyttsx3.init()
-    engine.save_to_file(text, './output/output.mp3')
+    rate = engine.getProperty('rate')
+    engine.setProperty(rate, 150)
+    engine.save_to_file(text, path)
     engine.runAndWait()
 
 
