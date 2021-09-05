@@ -45,3 +45,7 @@ Share the Bot invitation URL with the server administrator, who can invite the B
 #### Start the Bot
 
 Run `chirppy_for_win.py` to start the bot.
+
+## Reference
+* [readBot](https://github.com/Nemy-z2z/readBot)
+* [見様見真似でDiscordのチャット読み上げbotを作った](https://qiita.com/Nemy/items/d895114d3ba9a9d7cb62)
