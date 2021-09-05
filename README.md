@@ -1,9 +1,19 @@
 # Chirppy for Windows
-This is a Bot that reads the channel in Discord. It runs on Windows and Python 3.8 or later.
 
-## Invitation
-Server administrators can invite bots from the following URL.  
-<https://discord.com/api/oauth2/authorize?client_id=883969791554101270&permissions=0&scope=bot>
+## TOC
+ * [Summary](#summary)
+ * [Usage](#usage)
+	 * [Discord command (for Users)](#discord command (for users))
+	 * [Build (for Developers)](#build (for developers))
+		 * [pip](#pip)
+		 * [Install ffmpeg](#install ffmpeg)
+		 * [Registering a Bot](#registering a bot)
+		 * [Invite a Bot](#invite a bot)
+		 * [Start the Bot](#start the bot)
+
+## Summary
+
+This is a Bot that reads the channel in Discord. It runs on Windows and Python 3.8 or later.
 
 ## Usage
 ### Discord command (for Users)
@@ -23,3 +33,15 @@ pip install -r requirements.txt
 
 #### Install ffmpeg
 Install ffmpeg and to open the Path to ffmpeg.exe so that it can be executed.
+
+#### Registering a Bot
+
+Create a Discord Bot by referring to the [tutorial](https://ikayome.hateblo.jp/entry/2019/07/03/Discord_bot%E4%BD%9C%E6%88%90%E3%83%81%E3%83%A5%E3%83%BC%E3%83%88%E3%83%AA%E3%82%A2%E3%83%AB), and set the token to the environment variable `CHIRPPY_WIN_TOKEN` after creating the bot and getting the token.
+
+#### Invite a Bot
+
+Share the Bot invitation URL with the server administrator, who can invite the Bot from the URL.
+
+#### Start the Bot
+
+Run `chirppy_for_win.py` to start the bot.
