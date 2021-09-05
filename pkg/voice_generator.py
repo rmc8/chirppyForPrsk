@@ -1,6 +1,5 @@
 import os
 import re
-import subprocess
 
 import pyttsx3
 
@@ -11,11 +10,8 @@ def rm_custom_emoji(text):
     :param text: オリジナルのテキスト
     :return: 絵文字IDを除去したテキスト
     """
-    # pattern = r'<:[a-zA-Z0-9_]+:[0-9]+>'    # カスタム絵文字のパターン
-    pattern = r'<:'  # カスタム絵文字のパターン
-    text = re.sub(pattern, '', text)  # 置換処理
-    pattern = r':[0-9]+>'  # カスタム絵文字のパターン
-    return re.sub(pattern, '', text)  # 置換処理
+    pattern = r'<:[a-zA-Z0-9_]+?>'
+    return re.sub(pattern, '', text)
 
 
 def omit_url(text):
