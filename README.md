@@ -2,7 +2,7 @@
 This is a Bot that reads the channel in Discord. It runs on Windows and Python 3.8 or later.
 
 ## Invitation
-Server administrators can invite bots from the following URL.
+Server administrators can invite bots from the following URL.  
 <https://discord.com/api/oauth2/authorize?client_id=883969791554101270&permissions=0&scope=bot>
 
 ## Usage
