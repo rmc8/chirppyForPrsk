@@ -1,5 +1,6 @@
 import os
 import re
+from datetime import datetime
 
 import pyttsx3
 
@@ -62,7 +63,7 @@ def user_custom(text):
     user_dict: str = f'{os.getcwd()}/dict/dict.csv'
     if not os.path.exists(user_dict):
         return text
-
+    
     with open(user_dict, 'r', encoding='utf-8') as f:
         lines = f.readline()
         lines = [ln for ln in lines if "," in ln]
@@ -80,9 +81,10 @@ def gen_mp3(text, path):
     engine.setProperty(rate, 150)
     engine.save_to_file(text, path)
     engine.runAndWait()
+    print(f"save: {path}")
 
 
-def create_wav(input_text, output_path):
+def create_mp3(input_text, output_path):
     """
     message.contentをテキストファイルと音声ファイルに書き込む
     :param input_text:
@@ -98,7 +100,8 @@ def create_wav(input_text, output_path):
 
 if __name__ == '__main__':
     from util import mkdir
-
+    
     mkdir('./dict/')
     mkdir('./output/')
-    create_wav('テスト', '../output/output.mp3')
+    now = datetime.now()
+    create_mp3('テスト', f'../output/output_{now:%Y%m%d_%H%M%S}.mp3')

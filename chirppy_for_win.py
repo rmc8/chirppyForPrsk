@@ -1,11 +1,13 @@
 import os
 import traceback
+from glob import glob
+from datetime import datetime
 
 import discord
 from discord.ext import commands
 
 from pkg.util import mkdir, get_token
-from pkg.voice_generator import create_wav
+from pkg.voice_generator import create_mp3
 
 client = commands.Bot(command_prefix='.')
 voice_client = None
@@ -59,19 +61,26 @@ async def on_message(message):
     print('---on_message_start---')
     msg_client = message.guild.voice_client
     print(msg_client)
+    now = datetime.now()
+    mp3_path = f'./output/output_{now:%Y%m%d_%H%M%S}.mp3'
     if not message.content.startswith('.') and message.guild.voice_client:
         print('#message.content:' + message.content)
-        mp3_path = './output/output.mp3'
-        create_wav(message.content, mp3_path)
+        create_mp3(message.content, mp3_path)
         source = discord.FFmpegPCMAudio(mp3_path)
         message.guild.voice_client.play(source)
     await client.process_commands(message)
     print('---on_message_end---')
 
 
+def init():
+    for path in glob("/output/output*.mp3"):
+        os.remove(path)
+
+
 def main():
     mkdir('./dict/')
     mkdir('./output/')
+    init()
     token: str = os.environ.get("CHIRPPY_WIN_TOKEN",
                                 get_token(path="./config.yaml"))
     while True:
