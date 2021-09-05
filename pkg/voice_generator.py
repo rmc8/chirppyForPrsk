@@ -62,7 +62,7 @@ def user_custom(text):
     user_dict: str = f'{os.getcwd()}/dict/dict.csv'
     if not os.path.exists(user_dict):
         return text
-
+    
     with open(user_dict, 'r', encoding='utf-8') as f:
         lines = f.readline()
         lines = [ln for ln in lines if "," in ln]
@@ -100,7 +100,7 @@ def create_wav(input_text, output_path):
 
 if __name__ == '__main__':
     from util import mkdir
-
+    
     mkdir('./dict/')
     mkdir('./output/')
     create_wav('テスト', '../output/output.mp3')
