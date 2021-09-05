@@ -3,13 +3,13 @@
 ## TOC
  * [Summary](#summary)
  * [Usage](#usage)
-	 * [Discord command (for Users)](#discord command (for users))
-	 * [Build (for Developers)](#build (for developers))
+	 * [Discord command (for Users)](#discord-command-for-users)
+	 * [Build (for Developers)](#build-for-developers)
 		 * [pip](#pip)
-		 * [Install ffmpeg](#install ffmpeg)
-		 * [Registering a Bot](#registering a bot)
-		 * [Invite a Bot](#invite a bot)
-		 * [Start the Bot](#start the bot)
+		 * [Install ffmpeg](#install-ffmpeg)
+		 * [Registering the Bot](#registering-the-bot)
+		 * [Invite the Bot](#invite-the-bot)
+		 * [Start the Bot](#start-the-bot)
 
 ## Summary
 
@@ -34,11 +34,11 @@ pip install -r requirements.txt
 #### Install ffmpeg
 Install ffmpeg and to open the Path to ffmpeg.exe so that it can be executed.
 
-#### Registering a Bot
+#### Registering the Bot
 
 Create a Discord Bot by referring to the [tutorial](https://ikayome.hateblo.jp/entry/2019/07/03/Discord_bot%E4%BD%9C%E6%88%90%E3%83%81%E3%83%A5%E3%83%BC%E3%83%88%E3%83%AA%E3%82%A2%E3%83%AB), and set the token to the environment variable `CHIRPPY_WIN_TOKEN` after creating the bot and getting the token.
 
-#### Invite a Bot
+#### Invite the Bot
 
 Share the Bot invitation URL with the server administrator, who can invite the Bot from the URL.
 
