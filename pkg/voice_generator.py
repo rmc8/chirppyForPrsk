@@ -69,6 +69,7 @@ def user_custom(text):
 
     with open(user_dict, 'r', encoding='utf-8') as f:
         lines = f.readline()
+        lines = [ln for ln in lines if "," in ln]
         while lines:
             pattern = lines.strip().split(',')
             if pattern[0] in text:
