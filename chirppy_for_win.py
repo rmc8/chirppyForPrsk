@@ -5,7 +5,7 @@ import PySimpleGUI as sg
 import discord
 from discord.ext import commands
 
-from pkg.util import mkdir
+from pkg.util import mkdir, get_token
 from pkg.voice_generator import create_wav
 
 client = commands.Bot(command_prefix='.')
@@ -75,9 +75,7 @@ def main():
     mkdir('./dict/')
     mkdir('./output/')
     token: str = os.environ.get("CHIRPPY_WIN_TOKEN",
-                                sg.PopupGetText("Input the discord token."))
-    if token is None:
-        exit()
+                                get_token(path="./config.yaml"))
     while True:
         try:
             client.run(token)
