@@ -1,6 +1,8 @@
 import os
 import traceback
+import warnings
 from glob import glob
+from typing import Optional
 from datetime import datetime
 
 import discord
@@ -11,6 +13,7 @@ from pkg.voice_generator import create_mp3
 
 client = commands.Bot(command_prefix='.')
 voice_client = None
+warnings.simplefilter("ignore")
 
 
 @client.event
@@ -73,7 +76,7 @@ async def on_message(message):
 
 
 def init():
-    for path in glob("/output/output*.mp3"):
+    for path in glob("./output/output*.mp3"):
         os.remove(path)
 
 
@@ -81,8 +84,9 @@ def main():
     mkdir('./dict/')
     mkdir('./output/')
     init()
-    token: str = os.environ.get("CHIRPPY_WIN_TOKEN",
-                                get_token(path="./config.yaml"))
+    token: Optional[str] = os.environ.get("CHIRPPY_WIN_TOKEN", None)
+    if token is None:
+        token = get_token(path="./config.yaml")
     while True:
         try:
             client.run(token)

@@ -1,4 +1,5 @@
 import os
+from typing import Optional
 
 import yaml
 import PySimpleGUI as sg
@@ -32,10 +33,13 @@ class YamlConfig:
 
 def get_token(path):
     yc = YamlConfig(path)
-    if not os.path.exists(path):
-        regist_token = sg.PopupGetText("Input the discord bot token")
-        if regist_token is None:
-            exit()
-        yc.write({"token": regist_token})
-    res = yc.load()
-    return res["token"]
+    token: str = ""
+    if os.path.exists(path):
+        conf = yc.load()
+        token = conf["token"]
+        
+    register_token: Optional[str] = sg.PopupGetText("Input the discord bot token", "Discord token", token)
+    if register_token is None:
+        exit()
+    yc.write({"token": register_token})
+    return register_token
