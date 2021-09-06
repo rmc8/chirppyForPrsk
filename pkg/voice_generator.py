@@ -44,6 +44,15 @@ def rm_command(text):
     return re.sub(r'^(!|\?|$).*', '', text)  # 置換処理
 
 
+def rm_symbol(text):
+    """
+    読み上げない記号を除去する
+    :param text: オリジナルのテキスト
+    :return: 記号を省略したテキスト
+    """
+    return text.replace('`', '')
+
+
 def rm_log(text):
     """
     参加ログを除去する
@@ -91,12 +100,15 @@ def create_mp3(input_text, output_path):
     :return:
     """
     # message.contentをテキストファイルに書き込み
-    fxs = (rm_command, omit_url,
+    fxs = (rm_command, omit_url, rm_symbol,
            rm_picture, rm_log, user_custom, rm_custom_emoji)
     for fx in fxs:
         input_text = fx(input_text)  # 絵文字IDは読み上げない
-    gen_mp3(input_text, output_path)
-
+    if input_text:
+        print(input_text)
+        gen_mp3(input_text, output_path)
+        return True
+    return False
 
 if __name__ == '__main__':
     from util import mkdir

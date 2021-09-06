@@ -44,8 +44,8 @@ async def bye(ctx):
 async def register(ctx, arg1, arg2):
     with open('./dict/dict.csv', mode='a', encoding='utf-8') as f:
         f.write(f'{arg1},{arg2}\n')
-        print('dic.txtに書き込み：''\n' + arg1 + ',' + arg2)
-    await ctx.send('`' + arg1 + '` を `' + arg2 + '` として登録しました')
+        print(f'dic.txtに書き込み：\narg1, arg2')
+    await ctx.send(f'`{arg1}`を`{arg2}`として登録しました')
 
 
 @client.event
@@ -68,9 +68,10 @@ async def on_message(message):
     mp3_path = f'./output/output_{now:%Y%m%d_%H%M%S}.mp3'
     if not message.content.startswith('.') and message.guild.voice_client:
         print('#message.content:' + message.content)
-        create_mp3(message.content, mp3_path)
-        source = discord.FFmpegPCMAudio(mp3_path)
-        message.guild.voice_client.play(source)
+        exists: bool = create_mp3(message.content, mp3_path)
+        if exists:
+            source = discord.FFmpegPCMAudio(mp3_path)
+            message.guild.voice_client.play(source)
     await client.process_commands(message)
     print('---on_message_end---')
 
