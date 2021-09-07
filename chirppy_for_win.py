@@ -44,7 +44,7 @@ async def bye(ctx):
 async def register(ctx, arg1, arg2):
     with open('./dict/dict.csv', mode='a', encoding='utf-8') as f:
         f.write(f'{arg1},{arg2}\n')
-        print(f'dic.txtに書き込み：\narg1, arg2')
+        print(f'dic.txtに書き込み：\n{arg1}, {arg2}')
     await ctx.send(f'`{arg1}`を`{arg2}`として登録しました')
 
 

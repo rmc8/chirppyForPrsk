@@ -86,18 +86,19 @@ def user_custom(text):
 
 def gen_mp3(text, path):
     engine = pyttsx3.init()
-    rate = engine.getProperty('rate')
-    engine.setProperty(rate, 150)
+    # rate = engine.getProperty('rate')
+    engine.setProperty('rate', 150)
     engine.save_to_file(text, path)
     engine.runAndWait()
     print(f"save: {path}")
 
 
-def create_mp3(input_text, output_path):
+def create_mp3(input_text, output_path) -> bool:
     """
     message.contentをテキストファイルと音声ファイルに書き込む
-    :param input_text:
-    :return:
+    :param input_text: 読み上げ内容のテキスト
+    :param output_path: mp3ファイルの出力先
+    :return: 音声の出力があるか
     """
     # message.contentをテキストファイルに書き込み
     fxs = (rm_command, omit_url, rm_symbol,
@@ -109,6 +110,7 @@ def create_mp3(input_text, output_path):
         gen_mp3(input_text, output_path)
         return True
     return False
+
 
 if __name__ == '__main__':
     from util import mkdir
