@@ -1,5 +1,7 @@
 pyyaml
 discord
 ffmpeg
+PyNaCl
 pyttsx3
+tabulate
 PySimpleGUI

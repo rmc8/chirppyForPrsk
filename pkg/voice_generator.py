@@ -15,6 +15,15 @@ def rm_custom_emoji(text):
     return re.sub(pattern, '', text)
 
 
+def omit_code_block(text):
+    """
+    コードブロックを省略する
+    :param text: オリジナルのテキスト
+    :return: URLの省略したテキスト
+    """
+    pattern = r'```.*?```'
+    return re.sub(pattern, 'コードブロック省略', text)  # 置換処理
+
 def omit_url(text):
     """
     URLを省略する
@@ -101,10 +110,10 @@ def create_mp3(input_text, output_path) -> bool:
     :return: 音声の出力があるか
     """
     # message.contentをテキストファイルに書き込み
-    fxs = (rm_command, omit_url, rm_symbol,
+    fxs = (rm_command, omit_code_block, omit_url, rm_symbol,
            rm_picture, rm_log, user_custom, rm_custom_emoji)
     for fx in fxs:
-        input_text = fx(input_text)  # 絵文字IDは読み上げない
+        input_text = fx(input_text)
     if input_text:
         print(input_text)
         gen_mp3(input_text, output_path)

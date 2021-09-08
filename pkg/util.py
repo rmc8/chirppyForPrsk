@@ -3,6 +3,7 @@ from typing import Optional
 
 import yaml
 import PySimpleGUI as sg
+from pandas import DataFrame
 
 
 def mkdir(dir_path):
@@ -13,7 +14,7 @@ def mkdir(dir_path):
 class YamlConfig:
     def __init__(self, file_name="./settings/config.yaml"):
         self.file_name = file_name
-    
+
     def load(self) -> dict:
         """
         yamlファイルを読み辞書形式で結果を返す
@@ -21,7 +22,7 @@ class YamlConfig:
         """
         with open(self.file_name, "r") as yf:
             return yaml.load(yf, Loader=yaml.FullLoader)
-    
+
     def write(self, data: dict) -> None:
         """
         yamlを書き出す
@@ -37,9 +38,17 @@ def get_token(path):
     if os.path.exists(path):
         conf = yc.load()
         token = conf["token"]
-        
     register_token: Optional[str] = sg.PopupGetText("Input the discord bot token", "Discord token", token)
     if register_token is None:
         exit()
     yc.write({"token": register_token})
     return register_token
+
+
+def gen_code_block(df: DataFrame):
+    lines = []
+    for line in df.to_markdown(index=False).splitlines():
+        lines.append(line[1:-1])
+    msg = '\n'.join(lines)
+    msg_lines = ["```", msg, "```"]
+    return '\n'.join(msg_lines)

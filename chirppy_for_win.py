@@ -1,15 +1,18 @@
 import os
+import time
 import traceback
 import warnings
 from glob import glob
-from typing import Optional
 from datetime import datetime
+from typing import Optional, Union
 
 import discord
+from pandas import DataFrame, merge
 from discord.ext import commands
 
-from pkg.util import mkdir, get_token
+from pkg.util import mkdir, get_token, gen_code_block
 from pkg.voice_generator import create_mp3
+from pkg.prsk import PSEKAI
 
 client = commands.Bot(command_prefix='.')
 voice_client = None
@@ -46,6 +49,62 @@ async def register(ctx, arg1, arg2):
         f.write(f'{arg1},{arg2}\n')
         print(f'dic.txtに書き込み：\n{arg1}, {arg2}')
     await ctx.send(f'`{arg1}`を`{arg2}`として登録しました')
+
+
+@client.command()
+async def eventid(ctx):
+    ps = PSEKAI()
+    df: DataFrame = ps.get_event_name()
+    msg = gen_code_block(df)
+    await ctx.send(msg)
+
+
+@client.command()
+async def border(ctx, event_id=None, top_num=None):
+    ps = PSEKAI()
+    if event_id is None or top_num is None:
+        msg = f'event_idやtop_numが空です。`.border 22 1000`のように値を設定してください。'
+        await ctx.send(msg)
+        return
+    res: Union[str, DataFrame] = ps.get_border(event_id, top_num)
+    if type(res) is not str:
+        rec = res.to_dict(orient="records")[-1]
+        key = f"TOP{top_num}"
+        res = f"{rec['datetime']} > {rec['eventName']} > TOP{top_num} > `{rec[key]:,} P`"
+    await ctx.send(res)
+
+
+@client.command()
+async def bsummary(ctx, event_id=None, limit=10000):
+    if event_id is None:
+        await ctx.send('取得対象のevent_idを`.bsummary 31`のように設定してください。')
+        return
+    ps = PSEKAI()
+    await ctx.send('ボーダーの取得を開始します。')
+    df: DataFrame = DataFrame()
+    rank_list = ps.get_tar_rank(limit)
+    for rank in rank_list:
+        print(f"Get the TOP{rank} border")
+        cdf: Union[DataFrame, str] = ps.get_border(event_id, str(rank))
+        if type(cdf) is str:
+            print(cdf)
+            await ctx.send(cdf)
+            return
+        time.sleep(1)
+        if df.empty:
+            df = cdf
+            continue
+        df = merge(df, cdf, on="datetime")
+    rec = df.to_dict(orient="records")[-1]
+    msg_lines = [
+        '```',
+        f"{rec['eventName']} - {rec['datetime']:%Y/%m/%d %H:%M:%S}",
+    ]
+    for rank in rank_list:
+        key = f'TOP{rank}'
+        msg_lines.append(f'TOP{rank}: {rec[key]:,} P')
+    msg_lines.append('```')
+    await ctx.send('\n'.join(msg_lines))
 
 
 @client.event
