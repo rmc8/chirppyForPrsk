@@ -63,7 +63,7 @@ async def eventid(ctx):
 async def border(ctx, event_id=None, top_num=None):
     ps = PSEKAI()
     if event_id is None or top_num is None:
-        msg = f'event_idやtop_numが空です。`.border 22 1000`のように値を設定してください。'
+        msg = 'event_idやtop_numが空です。`.border 22 1000`のように値を設定してください。'
         await ctx.send(msg)
         return
     res: Union[str, DataFrame] = ps.get_border(event_id, top_num)
