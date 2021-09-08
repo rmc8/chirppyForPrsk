@@ -70,7 +70,7 @@ async def border(ctx, event_id=None, top_num=None):
     if type(res) is not str:
         rec = res.to_dict(orient="records")[-1]
         key = f"TOP{top_num}"
-        res = f"{rec['datetime']} > {rec['eventName']} > TOP{top_num} > `{rec[key]:,} P`"
+        res = f"`{rec['eventName']}` > `{rec['datetime']}` > `TOP{top_num}` > `{rec[key]:,} P`"
     await ctx.send(res)
 
 
