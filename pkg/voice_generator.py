@@ -21,8 +21,8 @@ def omit_code_block(text):
     :param text: オリジナルのテキスト
     :return: URLの省略したテキスト
     """
-    pattern = r'```.*?```'
-    return re.sub(pattern, 'コードブロック省略', text)  # 置換処理
+    pattern = r'`{3}\w*.+?`{3}'
+    return re.sub(pattern, 'コードブロック省略', text, flags=re.DOTALL)
 
 
 def omit_url(text):
