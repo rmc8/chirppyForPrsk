@@ -109,12 +109,13 @@ async def bsummary(ctx, event_id=None, limit=10000):
 
 @client.event
 async def on_voice_state_update(member, before, after):
-    server_id_test: str = 'サーバーID'
-    text_id_test: int = 0  # 通知させたいテキストチャンネルID
+    server_id_test: Optional[int] = None
+    text_id_test: Optional[int] = None
     if member.guild.id == server_id_test:  # server_id
-        text_ch = client.get_channel(text_id_test)  # 通知させたいTEXTチャンネルid
+        text_ch = client.get_channel(text_id_test)
+        print(text_ch)
         if before.channel is None:
-            msg = f'【VC参加ログ】{member.name} が {after.channel.name} に参加しました。'
+            msg = f'`{member.name}` が `{after.channel.name}` に参加しました。'
             await text_ch.send(msg)
 
 
