@@ -4,6 +4,7 @@ import pandas as pd
 import requests as r
 from pandas import DataFrame
 
+YAML_PATH: str = "./config.yaml"
 
 class PSEKAI:
     def __init__(self):

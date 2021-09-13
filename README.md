@@ -16,6 +16,24 @@
 This is a Bot that reads the channel in Discord. It runs on Windows and Python 3.8 or later.
 
 ## Usage
+### Config.yaml
+
+```yaml
+token:
+voice_state:
+  update:
+    server_id:
+    text_ch_id:
+message:
+  mute:
+    - 235088799074484224 # Rythm
+    - 252128902418268161 # Rythm2
+    - 533698325203910668 # shovel blue
+    - 600611680711606284 # shovel red
+    - 600611976024162304 # shovel green
+    - 518899666637553667 # しゃべ太郎
+
+```
 ### Discord command (for Users)
 | Command           | Description                                                                                                                                 |
 | ----------------- | ------------------------------------------------------------------------------------------------------------------------------------------- |

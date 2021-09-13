@@ -11,7 +11,7 @@ def rm_custom_emoji(text):
     :param text: オリジナルのテキスト
     :return: 絵文字IDを除去したテキスト
     """
-    pattern = r'<:[a-zA-Z0-9_]+?>'
+    pattern = r'<:[a-zA-Z0-9_]+?:>'
     return re.sub(pattern, '', text)
 
 
@@ -51,7 +51,7 @@ def rm_command(text):
     :param text: オリジナルのテキスト
     :return: コマンドを省略したテキスト
     """
-    return re.sub(r'^(!|\?|$).*', '', text)  # 置換処理
+    return re.sub(r'^(!|\?|$|\.|>).*', '', text, flags=re.DOTALL)  # 置換処理
 
 
 def rm_symbol(text):
@@ -61,16 +61,6 @@ def rm_symbol(text):
     :return: 記号を省略したテキスト
     """
     return text.replace('`', '')
-
-
-def rm_log(text):
-    """
-    参加ログを除去する
-    :param text: オリジナルのテキスト
-    :return: 参加ログを除去したテキスト
-    """
-    pattern = r'(\【VC参加ログ\】.*)'
-    return re.sub(pattern, '', text)  # 置換処理
 
 
 def user_custom(text):
@@ -112,7 +102,7 @@ def create_mp3(input_text, output_path) -> bool:
     """
     # message.contentをテキストファイルに書き込み
     fxs = (rm_command, omit_code_block, omit_url, rm_symbol,
-           rm_picture, rm_log, user_custom, rm_custom_emoji)
+           rm_picture, user_custom, rm_custom_emoji)
     for fx in fxs:
         input_text = fx(input_text)
     if input_text:

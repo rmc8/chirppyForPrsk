@@ -10,9 +10,9 @@ import discord
 from pandas import DataFrame, merge
 from discord.ext import commands
 
-from pkg.util import mkdir, get_token, gen_code_block
+from pkg.util import mkdir, get_token, gen_code_block, get_mute_uid, get_server_ids
 from pkg.voice_generator import create_mp3
-from pkg.prsk import PSEKAI
+from pkg.prsk import PSEKAI, YAML_PATH
 
 client = commands.Bot(command_prefix='.')
 voice_client = None
@@ -109,8 +109,7 @@ async def bsummary(ctx, event_id=None, limit=10000):
 
 @client.event
 async def on_voice_state_update(member, before, after):
-    server_id_test: Optional[int] = None
-    text_id_test: Optional[int] = None
+    server_id_test, text_id_test = get_server_ids(YAML_PATH)
     if member.guild.id == server_id_test:  # server_id
         text_ch = client.get_channel(text_id_test)
         print(text_ch)
@@ -122,11 +121,13 @@ async def on_voice_state_update(member, before, after):
 @client.event
 async def on_message(message):
     print('---on_message_start---')
+    print(message.author.id)
+    mute_id: list = get_mute_uid(YAML_PATH)
+    is_mute: bool = message.author.id in mute_id
     msg_client = message.guild.voice_client
-    print(msg_client)
     now = datetime.now()
     mp3_path = f'./output/output_{now:%Y%m%d_%H%M%S}.mp3'
-    if not message.content.startswith('.') and message.guild.voice_client:
+    if not message.content.startswith('.') and msg_client and not is_mute:
         print('#message.content:' + message.content)
         exists: bool = create_mp3(message.content, mp3_path)
         if exists:
@@ -147,7 +148,7 @@ def main():
     init()
     token: Optional[str] = os.environ.get("CHIRPPY_WIN_TOKEN", None)
     if token is None:
-        token = get_token(path="./config.yaml")
+        token = get_token(path=YAML_PATH)
     while True:
         try:
             client.run(token)
