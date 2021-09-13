@@ -6,6 +6,7 @@ from pandas import DataFrame
 
 YAML_PATH: str = "./config.yaml"
 
+
 class PSEKAI:
     def __init__(self):
         self.TAR_RANK: list = [
